@@ -4,11 +4,12 @@ package tech.harry.online_book_strore.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import tech.harry.online_book_strore.utils.BaseEntity;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +27,9 @@ public class User {
     private String password;
 
     @Column(name="user_role")
-    private String role;
+    private String role="USER";
 
     @Column(name="is_active")
-    private boolean isActive;
+    private boolean isActive=true;
 
 }
