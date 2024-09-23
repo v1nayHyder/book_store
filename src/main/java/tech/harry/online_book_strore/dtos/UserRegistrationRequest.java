@@ -20,7 +20,5 @@ public class UserRegistrationRequest {
     @Size(min = 6, message = "Password should be at least 6 characters")
     private String password;
 
-    private String role;
 
-    private boolean isActive;
 }

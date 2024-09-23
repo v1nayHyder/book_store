@@ -12,7 +12,7 @@ import java.util.Map;
 public class ApiResponse {
     private ResponseStatusTypeEnum status;
     private String message;
-    private String data;
+    private Object data;
 
     public enum ResponseStatusTypeEnum{
           SUCCESS("S"),
