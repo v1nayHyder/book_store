@@ -13,6 +13,8 @@ import tech.harry.online_book_strore.entities.User;
 import tech.harry.online_book_strore.exceptions.UserRegistrationException;
 import tech.harry.online_book_strore.repositories.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -58,5 +60,14 @@ public class UserService {
         }
         return null;
 
+    }
+
+    public boolean deleteUserById(Integer userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userRepository.delete(userOptional.get());
+            return true;
+        }
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package tech.harry.online_book_strore.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.harry.online_book_strore.dtos.ApiResponse;
 import tech.harry.online_book_strore.dtos.UserRegistrationRequest;
 import tech.harry.online_book_strore.dtos.UserRegistrationResponse;
+import tech.harry.online_book_strore.entities.User;
 import tech.harry.online_book_strore.exceptions.UserRegistrationException;
 import tech.harry.online_book_strore.services.UserService;
 
@@ -76,10 +78,33 @@ public class UserAuthController {
 
         } catch (Exception e) {
              apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
-             apiResponse.setMessage("An error occurred: " + e.getMessage());
+             apiResponse.setMessage("An unexpected error occurred: " + e.getMessage());
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
         }
 
-
     }
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<ApiResponse> deleteById(@PathVariable("userId") Integer userId) {
+        ApiResponse apiResponse = new ApiResponse();
+
+        try {
+            boolean isDeleted = userService.deleteUserById(userId);
+
+            if (isDeleted) {
+                apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.SUCCESS);
+                apiResponse.setMessage("User deleted successfully with ID: " + userId);
+                return ResponseEntity.ok(apiResponse);
+            }
+            else {
+                apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
+                apiResponse.setMessage("User not found with ID: " + userId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+            }
+        } catch (Exception e) {
+            apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
+            apiResponse.setMessage("An error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+        }
+    }
+
 }
