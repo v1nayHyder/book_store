@@ -7,4 +7,7 @@ import tech.harry.online_book_strore.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
     boolean existsByEmail(String email);
+
+
+    User findByEmail(String email);
 }

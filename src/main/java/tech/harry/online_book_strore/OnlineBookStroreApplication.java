@@ -15,9 +15,6 @@ public class OnlineBookStroreApplication {
 		System.out.println("this is online book store application");
 		System.out.println("recursive use");
 	}
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 }

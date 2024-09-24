@@ -32,7 +32,7 @@ public class Books {
     @Column(name = "total_stock", nullable = false)
     private long stock;
 
-   @ManyToMany
-   @JoinColumn(name = "category_id",referencedColumnName = "id")
-    private List< BookCategories> categories;
+//   @ManyToMany
+//   @JoinColumn(name = "category_id",referencedColumnName = "id")
+//    private List< BookCategories> categories;
 }
