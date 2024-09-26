@@ -15,7 +15,7 @@ public class SecurityConfig {
         httpSecurity.cors().and().csrf().disable()
 
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/rest/v1/auth/**","/rest/v1/bookCategory/**").permitAll()
+                        authorize.requestMatchers("/rest/v1/auth/**","/rest/v1/bookCategory/**","/rest/v1/books/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic();

@@ -22,3 +22,6 @@ public class UserRegistrationRequest {
 
 
 }
+class AdminRegistrationRequest extends UserRegistrationRequest{
+
+}

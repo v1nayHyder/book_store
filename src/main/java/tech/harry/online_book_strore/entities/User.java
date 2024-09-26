@@ -4,6 +4,7 @@ package tech.harry.online_book_strore.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import tech.harry.online_book_strore.configs.Role;
 import tech.harry.online_book_strore.utils.BaseEntity;
 
 @Data
@@ -27,7 +28,8 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name="user_role")
-    private String role="USER";
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name="is_active")
     private boolean isActive=true;

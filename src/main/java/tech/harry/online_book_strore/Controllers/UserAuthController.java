@@ -27,7 +27,7 @@ public class UserAuthController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
-    @PostMapping(path = "/register")
+    @PostMapping(path = "/registerUser")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
         ApiResponse apiResponse = new ApiResponse();
         try {
@@ -103,6 +103,37 @@ public class UserAuthController {
         } catch (Exception e) {
             apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
             apiResponse.setMessage("An error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+        }
+    }
+
+    @PostMapping(path = "/registerAdmin")
+    public ResponseEntity<ApiResponse> adminRegister(@Valid @RequestBody UserRegistrationRequest userRegistrationRequest) {
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+
+            UserRegistrationResponse userResponse = userService.registerAdmin(userRegistrationRequest);
+            apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.SUCCESS);
+            apiResponse.setMessage("Admin created successfully");
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            String userResponseJson = objectMapper.writeValueAsString(userResponse);
+            apiResponse.setData(userResponse);
+//            logger.info("User created successfully with email: {}", user.getEmail());
+
+            return ResponseEntity.ok(apiResponse);
+
+        } catch (UserRegistrationException e) {
+
+//            logger.error("User registration failed: {}", e.getMessage());
+            apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
+            apiResponse.setMessage("Admin registration failed: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(apiResponse);
+        } catch (Exception e) {
+
+//            logger.error("An unexpected error occurred during registration: {}", e.getMessage(), e);
+            apiResponse.setStatus(ApiResponse.ResponseStatusTypeEnum.FAIL);
+            apiResponse.setMessage("An unexpected error occurred: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
         }
     }
