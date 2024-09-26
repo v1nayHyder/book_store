@@ -13,9 +13,6 @@ public class OnlineBookStroreApplication {
 		SpringApplication.run(OnlineBookStroreApplication.class, args);
 		
 	}
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 }
