@@ -33,15 +33,7 @@ public class Books extends BaseEntity {
     @Column(name = "total_stock", nullable = false)
     private long stock;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
-    private BookCategories bookCategory;
-
-//   @ManyToMany
-//   @JoinTable(name = "books_category",
-//             joinColumns = @JoinColumn(name = "book_id"),
-//
-//           inverseJoinColumns = @JoinColumn(name = "category_id")
-//   )
-//    private List< BookCategories> categories;
+   @ManyToOne
+   @JoinColumn(name = "category_id",referencedColumnName = "id")
+    private  BookCategories categories;
 }
