@@ -15,9 +15,6 @@ public class OnlineBookStroreApplication {
 		System.out.println("added context"+context);
 		
 	}
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 }
