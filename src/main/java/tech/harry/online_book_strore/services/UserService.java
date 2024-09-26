@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import tech.harry.online_book_strore.configs.Role;
 import tech.harry.online_book_strore.dtos.UserRegistrationRequest;
 import tech.harry.online_book_strore.dtos.UserRegistrationResponse;
 import tech.harry.online_book_strore.entities.User;
@@ -42,7 +43,7 @@ public class UserService {
         // Convert DTO to entity and set additional properties
         User user = modelMapper.map(userRegistrationRequest, User.class);
         user.setPassword(passwordEncoder.encode(userRegistrationRequest.getPassword()));
-        user.setRole("USER");
+        user.setRole(Role.USER_ROLE);
 
         try {
             User savedUser = userRepository.save(user);
@@ -69,5 +70,27 @@ public class UserService {
             return true;
         }
         return false;
+    }
+     public UserRegistrationResponse registerAdmin(UserRegistrationRequest userRegistrationRequest) throws UserRegistrationException {
+//        logger.info("Attempting to register user with email: {}", userRegistrationRequest.getEmail());
+
+        // Check if the email is already in use
+        if (userRepository.existsByEmail(userRegistrationRequest.getEmail())) {
+//            logger.error("Email already in use: {}", userRegistrationRequest.getEmail());
+            throw new UserRegistrationException("Email is already in use.");
+        }
+        // Convert DTO to entity and set additional properties
+        User user = modelMapper.map(userRegistrationRequest, User.class);
+        user.setPassword(passwordEncoder.encode(userRegistrationRequest.getPassword()));
+        user.setRole(Role.ADMIN_ROLE);
+
+        try {
+            User savedUser = userRepository.save(user);
+//            logger.info("User registered successfully with email: {}", savedUser.getEmail());
+            return modelMapper.map(savedUser,UserRegistrationResponse.class);
+        } catch (Exception e) {
+//            logger.error("Failed to register user: {}", e.getMessage(), e);
+            throw new UserRegistrationException("Failed to register user. Please try again.");
+        }
     }
 }

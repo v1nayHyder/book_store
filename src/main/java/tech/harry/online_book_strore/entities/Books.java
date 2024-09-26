@@ -2,13 +2,14 @@ package tech.harry.online_book_strore.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import tech.harry.online_book_strore.utils.BaseEntity;
 
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "books")
-public class Books {
+public class Books extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,11 +21,11 @@ public class Books {
     @Column(name = "book_author", nullable = false)
     private String author;
 
-    @Column(name = "isbn_number", unique = true, nullable = false)
+    @Column(name = "isbn_number", nullable = false)
     private String ISBN;
 
-    @Column(name = "book_description", columnDefinition = "TEXT")
-    private String desc;
+    @Column(name = "book_name", columnDefinition = "TEXT")
+    private String name;
 
     @Column(name = "book_price", nullable = false)
     private double price;
@@ -32,7 +33,7 @@ public class Books {
     @Column(name = "total_stock", nullable = false)
     private long stock;
 
-//   @ManyToMany
-//   @JoinColumn(name = "category_id",referencedColumnName = "id")
-//    private List< BookCategories> categories;
+   @ManyToOne
+   @JoinColumn(name = "category_id",referencedColumnName = "id")
+    private  BookCategories categories;
 }
