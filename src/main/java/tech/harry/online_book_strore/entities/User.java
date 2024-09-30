@@ -3,8 +3,7 @@ package tech.harry.online_book_strore.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import tech.harry.online_book_strore.configs.Role;
+import tech.harry.online_book_strore.enums.Role;
 import tech.harry.online_book_strore.utils.BaseEntity;
 
 @Data

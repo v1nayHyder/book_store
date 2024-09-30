@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 @Data
 public class BookRequest {
 
+    private Integer id;
     @NotBlank(message = "Title cannot be blank")
     @Size(max = 255, message = "Title can be at most 255 characters long")
     private String title;
