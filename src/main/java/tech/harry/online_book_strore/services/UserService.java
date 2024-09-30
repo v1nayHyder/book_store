@@ -1,13 +1,11 @@
 package tech.harry.online_book_strore.services;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import tech.harry.online_book_strore.configs.Role;
+import tech.harry.online_book_strore.enums.Role;
 import tech.harry.online_book_strore.dtos.UserRegistrationRequest;
 import tech.harry.online_book_strore.dtos.UserRegistrationResponse;
 import tech.harry.online_book_strore.entities.User;
@@ -16,7 +14,7 @@ import tech.harry.online_book_strore.repositories.UserRepository;
 
 import java.util.Optional;
 
-@Service
+@Service @RequiredArgsConstructor
 public class UserService {
 
 //    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
@@ -24,12 +22,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+//    @Autowired
+//    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+//        this.modelMapper = modelMapper;
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     //    @Transactional
     public UserRegistrationResponse registerUser(UserRegistrationRequest userRegistrationRequest) throws UserRegistrationException {

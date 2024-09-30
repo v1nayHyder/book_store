@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import tech.harry.online_book_strore.utils.BaseEntity;
 
-import java.util.List;
-
 @Entity
 @Data
 @Table(name = "book_categories")
@@ -18,15 +16,15 @@ public class BookCategories extends BaseEntity {
     private Integer id;
 
     @NotBlank(message = "Name is required")
-    @Size(max = 50, message = "Name must not exceed 50 characters")
-    @Column(name = "name", unique = true, nullable = false)
+    @Size(max = 100, message = "Name must not exceed 100 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Size(max = 100, message = "Description must not exceed 50 characters")
+    @Size(max = 500, message = "Description must not exceed 500 characters")
     @Column(name = "description", columnDefinition = "TEXT")
     private String desc;
 
-//    @ManyToMany(mappedBy = "categories")
+//    @OneToMany(mappedBy = "categories")
 //    private List<Books> books;
 
 
