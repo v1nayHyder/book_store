@@ -1,7 +1,6 @@
 package tech.harry.online_book_strore.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 public class BookRequest {
 
     private Integer id;
+
     @NotBlank(message = "Title cannot be blank")
     @Size(max = 255, message = "Title can be at most 255 characters long")
     private String title;
@@ -39,3 +39,5 @@ public class BookRequest {
     @NotNull(message = "Category ID cannot be null")
     private Integer categoryId;
 }
+
+

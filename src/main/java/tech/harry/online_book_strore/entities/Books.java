@@ -1,13 +1,17 @@
 package tech.harry.online_book_strore.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import tech.harry.online_book_strore.utils.BaseEntity;
 
 import java.math.BigDecimal;
 
 @Entity
-@Data
+//@Data
+@Getter
+@Setter
 @Table(name = "books")
 public class Books extends BaseEntity {
 
@@ -21,7 +25,8 @@ public class Books extends BaseEntity {
     @Column(name = "book_author", nullable = false)
     private String author;
 
-    @Column(name = "isbn_number",nullable = false)
+    @Column(name = "isbn_number")
+    @JsonProperty("ISBN")
     private String ISBN;
 
     @Column(name = "book_price", nullable = false)
@@ -33,11 +38,8 @@ public class Books extends BaseEntity {
     @Column(name = "book_name", columnDefinition = "TEXT")
     private String name;
 
-
-
-   @ManyToOne(cascade=CascadeType.ALL)
-   @JoinColumn(name = "category_id",referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
     private  BookCategories categories;
 }
-//    @OneToMany(mappedBy = "books",cascade =CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
-//    private List<Image> images;
+
