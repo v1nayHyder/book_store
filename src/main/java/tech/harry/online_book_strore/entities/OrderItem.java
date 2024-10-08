@@ -1,12 +1,15 @@
 package tech.harry.online_book_strore.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
-
+import lombok.Getter;
+import lombok.Setter;
 import tech.harry.online_book_strore.utils.BaseEntity;
+import java.math.BigDecimal;
 
 @Entity
-@Data
+@Setter
+@Getter
 @Table(name = "order_items")
 public class OrderItem extends BaseEntity {
 
@@ -18,15 +21,14 @@ public class OrderItem extends BaseEntity {
     private int quantity;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
-    @ManyToOne()
-    @JoinColumn(name= "order_id",nullable = false,referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
+    @JsonBackReference
     private Order order;
 
-    @ManyToOne()
-    @JoinColumn(name= "book_id",nullable = false,referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "book_id", nullable = false)
     private Books book;
-
-
 }

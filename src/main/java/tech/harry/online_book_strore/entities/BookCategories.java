@@ -24,8 +24,6 @@ public class BookCategories extends BaseEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String desc;
 
-//    @OneToMany(mappedBy = "categories")
-//    private List<Books> books;
 
 
 }

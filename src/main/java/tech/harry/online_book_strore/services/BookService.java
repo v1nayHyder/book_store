@@ -14,6 +14,9 @@ import tech.harry.online_book_strore.repositories.BookCategoryRepository;
 import tech.harry.online_book_strore.repositories.BookRepository;
 
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,68 +35,44 @@ public class BookService    {
     private ModelMapper modelMapper;
     public Books bookCreated(BookRequest bookRequest) {
 
-//        BookCategories bookCategories= bookCategoryRepository.findById(bookRequest.getCategoryId())
-//                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + bookRequest.getCategoryId()));
-//        if (bookCategories==null) {
-//            throw new RuntimeException("Category not found for Category ID: " + bookRequest.getCategoryId());
-//        }
-//
-//        Books existingBook = bookRepository.findByAuthor(bookRequest.getAuthor());
-//        if (existingBook != null &&
-//                bookRequest.getName().equals(existingBook.getName()) &&
-//                bookRequest.getISBN().equals(existingBook.getISBN())) {
-//            existingBook.setStock(bookRequest.getStock() + existingBook.getStock());
-//            return bookRepository.save(existingBook);
-//        } else {
-//
-//            Books newBook = modelMapper.map(bookRequest, Books.class);
-//            newBook.setCategories(bookCategories);
-//
-//            System.out.println("++++++++++++++++++"+newBook);
-//            return bookRepository.save(newBook);
-//        }
+        BookCategories bookCategories = bookCategoryRepository.findById(bookRequest.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + bookRequest.getCategoryId()));
 
-        Optional<BookCategories> optionalBookCategories = bookCategoryRepository.findById(bookRequest.getCategoryId());
-
-        if (optionalBookCategories.isPresent()) {
-            System.out.println("Category found with ID: " + bookRequest.getCategoryId());
-
-            Books existingBook = bookRepository.findByAuthorAndNameAndISBN(bookRequest.getAuthor(),bookRequest.getName(),bookRequest.getISBN());
-
-            if (existingBook != null) {
-                System.out.println("Updating existing book stock");
-                existingBook.setStock(bookRequest.getStock() + existingBook.getStock());
-                return bookRepository.save(existingBook);
-            } else {
-                System.out.println("Creating a new book");
-                Books newBook = modelMapper.map(bookRequest, Books.class);
-                newBook.setCategories(optionalBookCategories.get());
-                Books sb=bookRepository.save(newBook);
-                System.out.println("New book created: " + sb);
-                return bookRepository.save(sb);
-            }
-        } else {
-            throw new RuntimeException("Category not found with ID: " + bookRequest.getCategoryId());
+        Books existingBook = bookRepository.findByAuthorAndNameAndISBN(bookRequest.getAuthor(), bookRequest.getName(), bookRequest.getISBN());
+        if (existingBook != null) {
+            throw new RuntimeException("Book is already present: " + existingBook.getTitle());
         }
+        Books book = new Books();
+        modelMapper.map(bookRequest, book);
+        book.getCreatedAt();
+        book.setCategories(bookCategories);
+        Books save= bookRepository.save(book);
+         return save;
 
     }
 
+        public Books getBookById(Integer bookId) {
+                return bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found with Book ID: "+bookId));
 
-
-        public Books getBookById(Integer id) {
-
-        if (id == null) {
-//            logger.error("Book ID is null");
-            throw new IllegalArgumentException("Book ID cannot be null");
+        }
+        public List<Books> getAllBooks() {
+          return bookRepository.findAll();
         }
 
-//        logger.info("Fetching book by id: {}", id);
+    public void deleteBooksById(Integer bookId) {
+        Books book = getBookById(bookId);
+        bookRepository.deleteById(bookId);
+    }
 
-        return bookRepository.findById(id)
-                .orElseThrow(() -> {
-//                    logger.error("Book not found with id: {}", id);
-                    return new ResourceNotFoundException("Book not found with id: " + id);
-                });
+    public Books updateBookById(Integer bookId, BookRequest updatedBook) {
+        Books book = getBookById(bookId);
+
+        BookCategories bookCategories = bookCategoryRepository.findById(updatedBook.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with ID: " + updatedBook.getCategoryId()));
+        modelMapper.map(updatedBook, book);
+        book.setCategories(bookCategories);
+        return bookRepository.save(book);
+
     }
 
 }

@@ -1,5 +1,6 @@
 package tech.harry.online_book_strore.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import tech.harry.online_book_strore.enums.OrderStatus;
@@ -22,6 +23,11 @@ public class Order extends BaseEntity {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(name = "cart_id")
+    private Integer cartId;
+
+
+
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
 
@@ -30,8 +36,8 @@ public class Order extends BaseEntity {
     private OrderStatus orderStatus;
 
 
-
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,orphanRemoval = true,fetch =FetchType.LAZY)
+    @JsonManagedReference
     private Set<OrderItem> orderItems=new HashSet<>();
 
 

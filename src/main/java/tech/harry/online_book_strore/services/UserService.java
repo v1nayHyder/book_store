@@ -22,12 +22,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    public UserService(ModelMapper modelMapper, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-//        this.modelMapper = modelMapper;
-//        this.userRepository = userRepository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
 
     //    @Transactional
     public UserRegistrationResponse registerUser(UserRegistrationRequest userRegistrationRequest) throws UserRegistrationException {
